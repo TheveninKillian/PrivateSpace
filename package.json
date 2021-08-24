@@ -1,0 +1,41 @@
+{
+  "name": "privatespace",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --port 3300",
+    "build": "cross-env NODE_ENV=production vite-ssg build",
+    "preview": "vite preview",
+    "preview-https": "serve dist"
+  },
+  "dependencies": {
+    "@types/node": "^16.7.1",
+    "@vueuse/core": "^6.0.0",
+    "@vueuse/head": "0.5.1",
+    "vue": "3.2.6",
+    "vue-i18n": "9.1.6",
+    "vue-router": "4.0.11"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.7.0",
+    "@iconify/json": "^1.1.392",
+    "@intlify/vite-plugin-vue-i18n": "^2.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "4.29.3",
+    "@vitejs/plugin-vue": "^1.2.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/server-renderer": "^3.2.6",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.32.0",
+    "https-localhost": "^4.6.5",
+    "sass": "^1.38.1",
+    "typescript": "^4.3.2",
+    "vite": "^2.4.3",
+    "vite-plugin-components": "^0.13.2",
+    "vite-plugin-icons": "^0.6.5",
+    "vite-plugin-pages": "^0.17.4",
+    "vite-plugin-vue-layouts": "^0.3.1",
+    "vite-plugin-windicss": "^1.2.9",
+    "vite-ssg": "^0.14.6",
+    "vue-tsc": "^0.3.0"
+  }
+}
