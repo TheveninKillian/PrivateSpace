@@ -1,15 +1,28 @@
+<script setup lang="ts">
+const log = () => {
+  console.log('test')
+}
+</script>
+
 <template>
-  <img alt="Vue logo" src="../assets/logo.png" m="x-auto b-4" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div id="note"></div>
+
+  <form display="flex" flex="col" w="250px">
+    <input id="title" type="text" name="title" m="b-15px">
+    <textarea id="note" name="note" cols="30" rows="10" m="b-15px"></textarea>
+    <input type="button" value="ADD" @click="log">
+  </form>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+input[type="text"], textarea{
+  border: 2px #000 solid;
+}
+
+input[type="button"]{
+  padding: 5px 15px;
+  width: 100px;
+
+  cursor: pointer;
 }
 </style>
