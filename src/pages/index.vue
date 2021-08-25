@@ -1,8 +1,4 @@
-<script setup lang="ts">
-const log = () => {
-  console.log('test')
-}
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div id="note"></div>
@@ -10,7 +6,7 @@ const log = () => {
   <form display="flex" flex="col" w="250px">
     <input id="title" type="text" name="title" m="b-15px">
     <textarea id="note" name="note" cols="30" rows="10" m="b-15px"></textarea>
-    <input type="button" value="ADD" @click="log">
+    <input type="button" value="ADD">
   </form>
 </template>
 
