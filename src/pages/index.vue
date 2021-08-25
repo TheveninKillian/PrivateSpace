@@ -17,6 +17,14 @@ const pushData = () => {
       console.error('Error adding document: ', error)
     })
 }
+
+const exportData = () => {
+  db.collection('note').get().then((qs) => {
+    qs.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`)
+    })
+  })
+}
 </script>
 
 <template>
@@ -34,6 +42,10 @@ const pushData = () => {
     ></textarea>
     <input type="button" value="ADD" @click="pushData(), title = '', note = ''">
   </form>
+
+  <button bg="gray-600" text="light-900" p="x-5 y-2" m="t-5" @click="exportData">
+    Verifier les données
+  </button>
 </template>
 
 <style lang="scss">
