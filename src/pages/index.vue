@@ -6,6 +6,14 @@ import { db } from '~/firebase'
 const title = ref('')
 const note = ref('')
 
+db.collection('note').onSnapshot((sn) => {
+  console.log(sn)
+
+  sn.docs.forEach((doc) => {
+    console.log(doc.data())
+  })
+})
+
 const pushData = () => {
   db.collection('note').add({
     title: title.value,
