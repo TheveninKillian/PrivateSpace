@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+
+const db = firebase.firestore()
+</script>
 
 <template>
   <div id="note"></div>
