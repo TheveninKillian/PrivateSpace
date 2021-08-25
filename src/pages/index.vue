@@ -1,10 +1,15 @@
 <script setup lang="ts">
+// eslint-disable-next-line import/named
+import { ref } from 'vue'
 import { db } from '~/firebase'
+
+const title = ref('')
+const note = ref('')
 
 const pushData = () => {
   db.collection('note').add({
-    title: 'Titre',
-    message: 'Mon premier message',
+    title: title.value,
+    message: note.value,
   }).then((docRef) => {
     console.log('Document written with ID: ', docRef.id)
   })
@@ -18,9 +23,16 @@ const pushData = () => {
   <div id="note"></div>
 
   <form display="flex" flex="col" w="250px">
-    <input id="title" type="text" name="title" m="b-15px">
-    <textarea id="note" name="note" cols="30" rows="10" m="b-15px"></textarea>
-    <input type="button" value="ADD" @click="pushData">
+    <input id="title" v-model="title" type="text" name="title" m="b-15px">
+    <textarea
+      id="note"
+      v-model="note"
+      name="note"
+      cols="30"
+      rows="10"
+      m="b-15px"
+    ></textarea>
+    <input type="button" value="ADD" @click="pushData(), title = '', note = ''">
   </form>
 </template>
 
