@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import { db } from '~/firebase'
 
-const db = firebase.firestore()
+const pushData = () => {
+  db.collection('note').add({
+    title: 'Titre',
+    message: 'Mon premier message',
+  }).then((docRef) => {
+    console.log('Document written with ID: ', docRef.id)
+  })
+    .catch((error) => {
+      console.error('Error adding document: ', error)
+    })
+}
 </script>
 
 <template>
@@ -11,7 +20,7 @@ const db = firebase.firestore()
   <form display="flex" flex="col" w="250px">
     <input id="title" type="text" name="title" m="b-15px">
     <textarea id="note" name="note" cols="30" rows="10" m="b-15px"></textarea>
-    <input type="button" value="ADD">
+    <input type="button" value="ADD" @click="pushData">
   </form>
 </template>
 
