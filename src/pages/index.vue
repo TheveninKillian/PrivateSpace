@@ -5,12 +5,11 @@ import { db } from '~/firebase'
 
 const title = ref('')
 const note = ref('')
+const tab = ref<object[]>([])
 
-db.collection('note').onSnapshot((sn) => {
-  console.log(sn)
-
-  sn.docs.forEach((doc) => {
-    console.log(doc.data())
+db.collection('note').get().then((qs) => {
+  qs.forEach((doc) => {
+    tab.value.push(doc.data())
   })
 })
 
@@ -19,7 +18,12 @@ const pushData = () => {
     title: title.value,
     message: note.value,
   }).then((docRef) => {
-    console.log('Document written with ID: ', docRef.id)
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        const newNote = doc.data()
+        if (newNote !== undefined) tab.value.push(newNote)
+      }
+    })
   })
     .catch((error) => {
       console.error('Error adding document: ', error)
@@ -36,7 +40,9 @@ const exportData = () => {
 </script>
 
 <template>
-  <div id="note"></div>
+  <div id="note">
+    <Note v-for="item in tab" :key="item.title" :title="item.title" :note="item.message" />
+  </div>
 
   <form display="flex" flex="col" w="250px">
     <input id="title" v-model="title" type="text" name="title" m="b-15px">
