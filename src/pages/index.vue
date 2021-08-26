@@ -1,15 +1,24 @@
 <script setup lang="ts">
 // eslint-disable-next-line import/named
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { db } from '~/firebase'
 
 const title = ref('')
 const note = ref('')
 const tab = ref<object[]>([])
+const dataNote = reactive({
+  init: 0,
+})
 
 db.collection('note').get().then((qs) => {
+  dataNote.init = qs.size
+
   qs.forEach((doc) => {
     tab.value.push(doc.data())
+  })
+
+  tab.value.sort((a: object, b: object): number => {
+    return b.index - a.index
   })
 })
 
@@ -17,13 +26,16 @@ const pushData = () => {
   db.collection('note').add({
     title: title.value,
     message: note.value,
+    index: dataNote.init + 1,
   }).then((docRef) => {
     docRef.get().then((doc) => {
       if (doc.exists) {
         const newNote = doc.data()
-        if (newNote !== undefined) tab.value.push(newNote)
+        if (newNote !== undefined) tab.value.splice(0, 0, newNote)
       }
     })
+
+    dataNote.init++
   })
     .catch((error) => {
       console.error('Error adding document: ', error)
@@ -33,7 +45,7 @@ const pushData = () => {
 
 <template>
   <div id="note">
-    <Note v-for="item in tab" :key="item.title" :title="item.title" :note="item.message" />
+    <Note v-for="item in tab" :key="item.index" :title="item.title" :note="item.message" />
   </div>
 
   <form display="flex" flex="col" w="250px">
