@@ -12,3 +12,11 @@ const props = defineProps({
     <p>{{ props.note }}</p>
   </div>
 </template>
+
+<style lang="scss" scoped>
+div{
+  width: calc(100% / 5);
+
+  border: 1px solid red;
+}
+</style>
