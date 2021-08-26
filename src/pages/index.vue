@@ -44,12 +44,26 @@ const pushData = () => {
 </script>
 
 <template>
-  <div id="note">
+  <div
+    id="note"
+    w="3/4"
+    m="auto b-10"
+    display="flex"
+    flex="wrap"
+    justify="start"
+  >
     <Note v-for="item in tab" :key="item.index" :title="item.title" :note="item.message" />
   </div>
 
-  <form display="flex" flex="col" w="250px">
-    <input id="title" v-model="title" type="text" name="title" m="b-15px">
+  <form display="flex" flex="col" w="550px" m="auto">
+    <input
+      id="title"
+      v-model="title"
+      type="text"
+      name="title"
+      m="b-15px"
+      w="250px"
+    >
     <textarea
       id="note"
       v-model="note"
@@ -57,6 +71,7 @@ const pushData = () => {
       cols="30"
       rows="10"
       m="b-15px"
+      w="550px"
     ></textarea>
     <input type="button" value="ADD" @click="pushData(), title = '', note = ''">
   </form>
@@ -64,6 +79,7 @@ const pushData = () => {
 
 <style lang="scss">
 input[type="text"], textarea{
+
   border: 2px #000 solid;
 }
 
