@@ -3,9 +3,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CarbonLanguage: typeof import('virtual:vite-icons/carbon/language')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    'Mdi:controllerXbox': typeof import('virtual:vite-icons/mdi/controller-xbox')['default']
+    Note: typeof import('./src/components/Note.vue')['default']
   }
 }
 
