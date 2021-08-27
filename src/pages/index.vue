@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // eslint-disable-next-line import/named
 import { reactive, ref } from 'vue'
-import { db } from '~/firebase'
+import { db, auth } from '~/firebase'
 
 const title = ref('')
 const note = ref('')
@@ -12,51 +12,78 @@ const dataNote = reactive({
 const activeLogin = ref(false)
 const choiceForm = ref('')
 
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log(`${user.email} est connecter`)
+
+    db.collection(`${user?.email}`).get().then((qs) => {
+      dataNote.init = qs.size
+
+      qs.forEach((doc) => {
+        tab.value.push(doc.data())
+      })
+
+      tab.value.sort((a: object, b: object): number => {
+        return b.index - a.index
+      })
+    })
+  }
+  else {
+    console.log('Deconnecter')
+  }
+})
+
 const updateActive = () => {
   return activeLogin.value = !activeLogin.value
 }
 
-db.collection('note').get().then((qs) => {
-  dataNote.init = qs.size
-
-  qs.forEach((doc) => {
-    tab.value.push(doc.data())
-  })
-
-  tab.value.sort((a: object, b: object): number => {
-    return b.index - a.index
-  })
-})
+const signOut = () => {
+  auth.signOut()
+    .then(() => {
+      tab.value = []
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 
 const pushData = () => {
-  db.collection('note').add({
-    title: title.value,
-    message: note.value,
-    index: dataNote.init + 1,
-  }).then((docRef) => {
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-        const newNote = doc.data()
-        if (newNote !== undefined) tab.value.splice(0, 0, newNote)
-      }
-    })
+  const user = auth.currentUser
 
-    dataNote.init++
-  })
-    .catch((error) => {
-      console.error('Error adding document: ', error)
+  if (user !== null) {
+    db.collection(`${user.email}`).add({
+      title: title.value,
+      message: note.value,
+      index: dataNote.init + 1,
+    }).then((docRef) => {
+      docRef.get().then((doc) => {
+        if (doc.exists) {
+          const newNote = doc.data()
+          if (newNote !== undefined) tab.value.splice(0, 0, newNote)
+        }
+      })
+
+      dataNote.init++
     })
+      .catch((error) => {
+        console.error('Error adding document: ', error)
+      })
+  }
 }
 </script>
 
 <template>
   <header m="b-10">
-    <button m="x-5" @click="updateActive(), choiceForm = 'signIn'">
+    <button m="x-5" @click="updateActive(), choiceForm = 'register'">
       S'inscrire
     </button>
 
     <button @click="updateActive(), choiceForm = 'login'">
       Se connecter
+    </button>
+
+    <button m="x-5" @click="signOut">
+      Se deconnecter
     </button>
   </header>
 
