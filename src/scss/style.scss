@@ -11,3 +11,10 @@ body{
   color: #2c3e50;
   margin-top: 15px;
 }
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea{
+  border: 2px #000 solid;
+}
