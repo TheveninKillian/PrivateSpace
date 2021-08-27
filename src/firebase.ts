@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/order
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCEYE4IHyv3uzBcsENRb1AF4sGzvOTpnsY',
@@ -14,5 +15,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 const db = firebase.firestore()
+const auth = firebase.auth()
 
-export { db }
+export { db, auth }
