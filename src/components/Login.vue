@@ -1,10 +1,37 @@
 <script lang="ts" setup>
+// eslint-disable-next-line import/named
+import { ref } from 'vue'
+import { auth } from '~/firebase'
+
 const props = defineProps({
   active: Boolean,
   choice: String,
 })
 
 const emit = defineEmits(['updateActive'])
+
+const email = ref('')
+const password = ref('')
+
+const register = (email: string, password: string) => {
+  auth.createUserWithEmailAndPassword(email, password)
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+
+      console.log(`${errorCode} : ${errorMessage}`)
+    })
+}
+
+const login = (email: string, password: string) => {
+  auth.signInWithEmailAndPassword(email, password)
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+
+      console.log(`${errorCode} : ${errorMessage}`)
+    })
+}
 </script>
 
 <template>
@@ -12,14 +39,15 @@ const emit = defineEmits(['updateActive'])
     <div class="overlay" @click="emit('updateActive')"></div>
 
     <div class="form-login">
-      <div v-if="choice === 'signIn'">
+      <div v-if="choice === 'register'">
         <h3 text="center" m="y-5">
           S'inscrire
         </h3>
 
         <form>
-          <label for="email">Email</label><input id="email" type="email" name="email"><br><br>
-          <label for="password">Mot de passe</label><input id="password" type="password" name="password">
+          <label for="email">Email</label><input id="email" v-model="email" type="email" name="email"><br><br>
+          <label for="password">Mot de passe</label><input id="password" v-model="password" type="password" name="password"><br><br>
+          <input type="button" value="S'inscrire" @click="register(email, password), email = '', password = ''">
         </form>
       </div>
 
@@ -29,8 +57,9 @@ const emit = defineEmits(['updateActive'])
         </h3>
 
         <form>
-          <label for="email">Email</label><input id="email" type="email" name="email"><br><br>
-          <label for="password">Mot de passe</label><input id="password" type="password" name="password">
+          <label for="email">Email</label><input id="email" v-model="email" type="email" name="email"><br><br>
+          <label for="password">Mot de passe</label><input id="password" v-model="password" type="password" name="password"><br><br>
+          <input type="button" value="Se connecter" @click="login(email, password), email = '', password = ''">
         </form>
       </div>
     </div>
@@ -63,6 +92,10 @@ const emit = defineEmits(['updateActive'])
 
     label{
       margin-right: 10px;
+    }
+
+    input[type="button"]{
+      width: 150px;
     }
   }
 </style>
