@@ -9,6 +9,12 @@ const tab = ref<object[]>([])
 const dataNote = reactive({
   init: 0,
 })
+const activeLogin = ref(false)
+const choiceForm = ref('')
+
+const updateActive = () => {
+  return activeLogin.value = !activeLogin.value
+}
 
 db.collection('note').get().then((qs) => {
   dataNote.init = qs.size
@@ -45,11 +51,16 @@ const pushData = () => {
 
 <template>
   <header m="b-10">
-    <button m="x-5">
+    <button m="x-5" @click="updateActive(), choiceForm = 'signIn'">
       S'inscrire
     </button>
-    <button>Se connecter</button>
+
+    <button @click="updateActive(), choiceForm = 'login'">
+      Se connecter
+    </button>
   </header>
+
+  <Login :active="activeLogin" :choice="choiceForm" @updateActive="updateActive" />
 
   <section>
     <div
@@ -87,11 +98,6 @@ const pushData = () => {
 </template>
 
 <style lang="scss">
-input[type="text"], textarea{
-
-  border: 2px #000 solid;
-}
-
 input[type="button"]{
   padding: 5px 15px;
   width: 100px;
