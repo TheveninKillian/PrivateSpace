@@ -3,6 +3,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Login: typeof import('./src/components/Login.vue')['default']
     Note: typeof import('./src/components/Note.vue')['default']
   }
 }
