@@ -1,6 +1,6 @@
 {
   "name": "privatespace",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "scripts": {
     "dev": "vite --port 3300",
     "build": "cross-env NODE_ENV=production vite-ssg build",
